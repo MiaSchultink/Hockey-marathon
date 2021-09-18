@@ -1,0 +1,27 @@
+<div class="navigation-container">
+    <div class="navigation home-nav">
+
+        <% if(locals.isLoggedIn==true) {%> 
+        
+        <button onclick="location.assign('/')" class = "nav-button icon"><i class="fad fa-home-lg-alt"></i></button>
+       
+            <button class = "nav-button profile">Profile</button>
+            <button class = "nav-button profile">Games</button>
+            <button class = "nav-button" onclick ="location.assign('/game/teams')">Teams</button>
+            <button class = "nav-button profile">Announcemetns</button>
+
+            <button class = "nav-button" onclick ="location.assign('/user/logout')">Logout</button>
+            <% }  else {%> 
+     
+        <button class = "nav-button" onclick ="location.assign('/user/login')">Login</button>
+        <button class= "nav-button"  onclick = "location.assign('/user/sign-up')">Sign-up</button>
+        <% } %>  
+
+
+        <% if(locals.isAdmin==true) {%>
+            <button class = "nav-button" onclick ="location.assign('/admin/add-team')">Add-team</Add-team></button>
+            <% } %> 
+
+    </div>
+
+</div>

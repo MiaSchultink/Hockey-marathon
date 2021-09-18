@@ -1,0 +1,58 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+
+
+<div class="form-container">
+    <form calss="form" method="post" action="/user/sign-up">
+
+        <div class="group-container">
+        <label for="name">Name</label>
+        <input calss="name" name="name" required>
+    </div>
+
+        <div class="group-container">
+        <label for="grade-level">Grade level</label>
+        <select id="grade-level" name="gradeLevel" required>
+            <option selected = "selected" value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="teacher">teacher</option>
+        </select>
+    </div>
+
+    <!-- <div class="group-container">
+        <label for="team">Team</label>
+        <select id="team" name="team" required>
+        <option selected = "selected" value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+   </div> -->
+
+        <div class="group-container">
+         <label for="email">Email</label>
+        <input name ="email" class="email" type="email" required>
+    </div>
+
+        <div class="group-container">
+        <label for="password">Password</label>
+        <input name ="password" type="password" class="password" required>
+    </div>
+
+        <div class="group-container">
+        <button class="form-button" name ="sign-up-button" type ="submit">Sign-up</button>
+    </div>
+
+        <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+    </form>
+</div>
+
+
+     </div>
+    </div>
+</body>

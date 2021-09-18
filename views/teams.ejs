@@ -1,0 +1,26 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+
+    <div class="teams-container">
+<% for(let i=0; i<teams.length;i++){ %> 
+
+     <% if(teams[i].color=="red"){ %>
+        <div class="team team-red">
+            <div class="team-name"><%=teams[i].name%></div>
+        </div>
+     <% } else{%> 
+        <div class="team team-blue">
+            <div class="team-name"><%=teams[i].name%></div>
+        </div>
+        <% } %> 
+        
+<%}%>
+
+    </div>
+      
+        </div>
+    </div>
+</body>

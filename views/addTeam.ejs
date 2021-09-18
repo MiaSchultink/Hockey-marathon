@@ -1,0 +1,33 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+      
+            <div class="form-container">
+       <form action = "/admin/add-team" method ="post">
+
+        <div class="group-container">
+            <label for="name">Team Name</label>
+        <input name="name">
+    </div>
+
+    <div class="group-container">
+        <label for="color">Red or blue</label>
+        <select id="color" name="color" required>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+        </select>
+    </div>
+
+    <div class="group-container">
+        <button class="form-button" type="submit">Add Team</button>
+    </div>
+
+    <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+    
+    </form>
+</div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,33 @@
+
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+
+
+<div class="form-container">
+    <form calss="form" method="post" action="/user/login">
+
+        <div class="group-container">
+         <label for="email">Email</label>
+        <input name ="email" class="email" type="email" required>
+    </div>
+
+        <div class="group-container">
+        <label for="password">Password</label>
+        <input name ="password" type="password" class="password" required>
+    </div>
+
+        <div class="group-container">
+        <button class="form-button" name ="loginButton" type ="submit">Login</button>
+    </div>
+
+        <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+    </form>
+</div>
+
+
+     </div>
+    </div>
+</body>
