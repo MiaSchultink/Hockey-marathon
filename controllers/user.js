@@ -1,4 +1,5 @@
 const User = require('../models/user')
+const Team = require('../models/team')
 
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs');
@@ -122,5 +123,7 @@ exports.logout = (req, res, next) => {
         })
     }
 };
+
+
 
 

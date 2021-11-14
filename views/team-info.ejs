@@ -1,0 +1,16 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+        <div class ="team-info">
+            <div class="team-name"><%=team.name%></div>
+            <div class="team-members">
+                <% for(let i=0; i<team.members.length; i++){%> 
+                    <div><%=team.members[i].name%></div>
+                    <% } %> 
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
