@@ -135,7 +135,7 @@ select{
 }
 
 
-.team{
+/* .team{
   display: flex;
   font-size: 20px;
   border-radius: 10px;
@@ -143,13 +143,49 @@ select{
   padding: 10px;
   margin: 10px;
   width: 50vw;
-}
+} */
 .team-red{
+
+   display: flex;
+
+  font-size: 20px;
+  border-radius: 10px;
+  height: 30px;
+  padding: 10px;
+  margin: 10px;
+  width: 50vw;
     background-color: #ed3e3e;
 }
 .team-blue{
+  
+    display: flex;
+  font-size: 20px;
+  border-radius: 10px;
+  height: 30px;
+  padding: 10px;
+  margin: 10px;
+  width: 50vw;
     background-color: #3184f0;
 }
+
+.team-btns{
+    display: flex;
+   
+}
+
+.btn-details{
+    outline: none;
+    border: none;
+    background-color: #202124;
+    color: white;
+    height: 30px;
+    width: 60px;
+    border-radius: 9px;
+    padding: 10px;
+
+}
+
+
 
 @media screen and (max-width: 480px){
     .form-container{

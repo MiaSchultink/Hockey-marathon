@@ -39,12 +39,13 @@ exports.joinTeam = async(req, res, next)=>{
     const team = await Team.findById(req.body.teamId).exec();
     const user = await User.findById(req.session.user._id).exec();
 try{
-    if(team.members.includes(user)){
+    if(team.members.includes(user._id)){
         throw new Error('You are already on this team!')
     }
     else{
         await team.members.addToSet(user);
         user.team = team;
+        await team.save();
     }
     res.render('team-info', {
         team:team
@@ -61,11 +62,12 @@ try{
 exports.leaveTeam = async (req, res, next) =>{
     const team = await Team.findById(req.body.teamId).exec();
     const user = await User.findById(req.session.user._id).exec();
-   
+
 try{
-    if(team.members.includes(user)){
+    if(team.members.includes(user._id)){
        await team.members.pull(user);
        user.team = null; 
+       await team.save();
     }
     else{
         throw new Error('You are not on this team so you cannot leave it!')
@@ -80,4 +82,6 @@ try{
         })
       }
 }
+
+
 

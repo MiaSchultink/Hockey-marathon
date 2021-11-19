@@ -8,4 +8,5 @@ router.post('/teams/team',gameController.teamInfo);
 
 router.post('/teams/join', gameController.joinTeam);
 router.post('/teams/leave',gameController.leaveTeam);
+
 module.exports =router;

@@ -6,28 +6,44 @@
 
     <div class="teams-container">
 <% for(let i=0; i<teams.length;i++){ %> 
-  
-        <div class="team team-red">
-            <div class="team-name"><%=teams[i].name%></div>
 
+    <% const team  = teams[i];
+    let stylePreference  = "";
+    if(team.color =='red'){
+        stylePreference ='team-red'
+
+    }
+    else{
+        stylePreference = 'team-blue'
+    }
+    %> 
+  
+
+    <div class= <%=stylePreference%>>
+        <div class="team-name"><%=teams[i].name%></div>
+
+        <div class="team-btns">
         <form name="team-details" action = "/game/teams/team" method="post">
             <input name = "teamId" type = "hidden" value =<%=teams[i]._id%>>
-            <button class="btn details" type ="submit">See details</button>
+            <button class="btn-details" type ="submit">Details</button>
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
     </form>
 
      <form name = "join-team" action ="/game/teams/join" method  = "post">
         <input name = "teamId" type = "hidden" value =<%=teams[i]._id%>>
-        <button class="btn details" type ="submit">Join team</button>
+        <button class="btn-details" type ="submit">Join</button>
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'> 
      </form>
 
      <form name = "leave-team" action ="/game/teams/leave" method  = "post">
         <input name = "teamId" type = "hidden" value =<%=teams[i]._id%>>
-        <button class="btn details" type ="submit">Leave team</button>
+        <button class="btn-details" type ="submit">Leave</button>
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'> 
      </form>
+    </div>
+
 </div>
+
 <%}%>
 
     </div>
