@@ -185,6 +185,35 @@ select{
 
 }
 
+.game{
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 1fr 1fr 1fr 30px;
+
+    height: 60px;
+    width: 65vw;
+    border-radius: 9px;
+    background-image: linear-gradient(to right, #ed3e3e , #3184f0);
+    padding: 10px;
+
+}
+
+.blue-team-name{
+    text-align: right;
+    
+} 
+.red-team-name{
+    text-align: left;
+ 
+}
+.dlt-game{
+    display: flex;
+     justify-content: center;
+     align-items: center;
+     font-size: 20px;
+}
+
+
 
 
 @media screen and (max-width: 480px){

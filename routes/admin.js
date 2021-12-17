@@ -10,5 +10,6 @@ router.post('/add-team', isAdmin, adminController.addTeam)
 
 router.get('/game/new', isAdmin, adminController.getScheduelGame);
 router.post('/game/new', isAdmin, adminController.scheduelGame);
+router.post('/game/delete',  isAdmin, adminController.deleteGame);
 
 module.exports = router;  

@@ -24,15 +24,14 @@
         </select>
     </div>
 
-    <!-- <div class="group-container">
-        <label for="team">Team</label>
-        <select id="team" name="team" required>
-        <option selected = "selected" value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-    </select>
-   </div> -->
+    <div class="user-team">
+        <label for="selected-team">Select your team</label>
+        <select id="selected-team" name="team" required>
+         <% for(let i=0; i<teams.length; i++){%> 
+            <option value="<%=teams[i]._id%>"><%=teams[i].name%></option>
+            <% } %> 
+        </select>
+    </div>
 
         <div class="group-container">
          <label for="email">Email</label>

@@ -5,12 +5,15 @@
         
         <button onclick="location.assign('/')" class = "nav-button icon"><i class="fad fa-home-lg-alt"></i></button>
        
-            <button class = "nav-button profile">Profile</button>
-            <button class = "nav-button profile">Games</button>
+            <button class = "nav-button profile" onclick ="location.assign('/user/profile')">Profile</button>
+            <button class = "nav-button profile" onclick ="location.assign('/game/all')">Games</button>
             <button class = "nav-button" onclick ="location.assign('/game/teams')">Teams</button>
             <button class = "nav-button profile">Announcemetns</button>
 
+            <form action = "/user/logout" method="post">
             <button class = "nav-button" onclick ="location.assign('/user/logout')">Logout</button>
+            <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+        </form>
             <% }  else {%> 
      
         <button class = "nav-button" onclick ="location.assign('/user/login')">Login</button>

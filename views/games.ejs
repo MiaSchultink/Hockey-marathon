@@ -1,0 +1,28 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+        
+            <div class="games">
+                <% for(let i=0; i<games.length; i++){ %> 
+                    <div class="game">
+                        <div class= "red-team-name"><%=games[i].redTeam.name%></div>
+                        <div class="time-and-result">
+                            <div class= "game-time"><%=games[i].stringTime%></div>
+                            <div class="result"><%=games[i].result%></div>
+                        </div>
+                        <div class="blue-team-name"><%=games[i].blueTeam.name%></div>
+                        <% if(locals.isAdmin==true) {%> 
+                            <form action = "/admin/game/delete" method="post">
+                                <input type= "hidden" name="gameId" value="<%=games[i]._id%>" >
+                           <button class=" small-icon dlt-game" type = "submit"><i class="fad fa-trash-alt"></i></button> 
+                           <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+                        </form>
+                            <% } %> 
+                    </div>
+                    <% } %> 
+            </div>
+        </div>
+    </div>
+</body>

@@ -28,7 +28,8 @@ const userSchema = new Schema({
 
     team:{
         type: mongoose.Schema.Types.ObjectId,
-        // require:true,
+        require:true,
+        default: null,
         ref: 'Team'
     },
     gradeLevel:{

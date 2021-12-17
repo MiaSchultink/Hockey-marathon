@@ -1,13 +1,19 @@
 const Team  = require('../models/team');
 const User  = require('../models/user');
+const Game = require('../models/game');
+
+
+
 
 exports.getTeams = async (req, res, next) =>{
 
     const teams = await Team.find().exec();
+    const user = await User.findById(req.session.user._id).exec();
 
     try{
     res.render('teams', {
-        teams: teams
+        teams: teams,
+        user:user
     })
 }
 catch (err) {
@@ -17,6 +23,8 @@ catch (err) {
     })
   }
 }
+
+
 exports.teamInfo = async (req, res, next) =>{
  const team = await Team.findById(req.body.teamId).exec();
 
@@ -46,6 +54,7 @@ try{
         await team.members.addToSet(user);
         user.team = team;
         await team.save();
+        await user.save();
     }
     res.render('team-info', {
         team:team
@@ -85,3 +94,33 @@ try{
 
 
 
+exports.getGames = async (req,res, next) =>{
+const games = await Game.find()
+.populate("redTeam")
+.populate("blueTeam")
+.exec();
+const user = await User.findById(req.session.user._id).exec();
+// for(let i=0; i<games.length; i++){
+//     console.log(games[i].redTeam)
+// }
+
+try{
+res.render('games', {
+    games: games,
+    user: user
+})
+
+}
+catch (err) {
+    console.log(err)
+    res.render('error', {
+        message: 'Something went wrong...'
+    })
+  }
+}
+
+
+
+exports.seeTeamDetails = (req, res,next) =>{
+    
+}

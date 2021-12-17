@@ -4,13 +4,17 @@ const Team = require('../models/team')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
+const { getSystemErrorMap } = require('util');
 
 
 sgMail.setApiKey(process.env.API_KEY)
 
-exports.getSignUp = (req, res, next) => {
+exports.getSignUp = async (req, res, next) => {
+    const teams = await Team.find().exec();
     try {
-        res.render('sign-up')
+        res.render('sign-up', {
+            teams:teams
+        })
     }
     catch (err) {
         console.log(err)
@@ -27,6 +31,7 @@ exports.postSignUp = async (req, res, next) => {
         const password = req.body.password;
 
         const team = req.body.team;
+        
         const gradeLevel = req.body.gradeLevel;
 
         const tempUser = await User.findOne({ email: email }).exec();
@@ -123,6 +128,22 @@ exports.logout = (req, res, next) => {
         })
     }
 };
+
+exports.viewProfile = async(req, res, next) =>{
+    const user = await User.findById(req.session.user._id).populate('team').exec();
+   
+    try{
+    res.render('user-profile',{
+        user:user
+    })
+}
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+}
 
 
 

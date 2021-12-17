@@ -18,11 +18,12 @@ const teamSchema = new Schema({
 
     color: {
         type: String,
+        required: true
     },
     games: [
         {
             type:  mongoose.Schema.Types.ObjectId,
-            reef: 'Game',
+            ref: 'Game',
             defualt: []
         }
     ]

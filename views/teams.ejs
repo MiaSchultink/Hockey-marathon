@@ -29,17 +29,23 @@
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
     </form>
 
+
+
+    
+
+    <% if(user.team.toString()==teams[i]._id.toString()) {%> 
      <form name = "join-team" action ="/game/teams/join" method  = "post">
         <input name = "teamId" type = "hidden" value =<%=teams[i]._id%>>
         <button class="btn-details" type ="submit">Join</button>
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'> 
      </form>
-
+<% } else { %> 
      <form name = "leave-team" action ="/game/teams/leave" method  = "post">
         <input name = "teamId" type = "hidden" value =<%=teams[i]._id%>>
         <button class="btn-details" type ="submit">Leave</button>
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'> 
      </form>
+     <% } %> 
     </div>
 
 </div>
