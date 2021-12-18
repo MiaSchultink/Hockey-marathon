@@ -79,31 +79,35 @@ exports.getScheduelGame = async (req, res, next) => {
 
 }
 
-exports.scheduelGame = async (req, res, next) => {
-
-
-    const date = new Date();
-    date.setFullYear(2021, 11, 29);
-
-    const time = req.body.gameTime;
+exports.scheduelGame = async (req, res, next) => { 
+   const stringTime = req.body.gameTime;
+    let time = stringTime;
     const brokenTime = time.split(":")
-    const hour = brokenTime[0];
-    const minute = brokenTime[1];
+    let hour =parseInt(brokenTime[0]);
+    hour+=2;
+    
+    if(hour<10){
+        hour = hour.toString();
+        hour = 0+hour;
+    }
+    
+    time = hour+":"+brokenTime[1];
 
-    date.setHours(hour);
-    date.setMinutes(minute);
-    date.setSeconds(0);
-
+    const date = new Date(req.body.gameDate+"T"+time);
+    console.log(date);
+    console.log(time)
+   // const milDate = date.getTime();
+    //console.log("mil ", milDate);
     try {
         const game = new Game({
             redTeam: req.body.redTeam,
             blueTeam: req.body.blueTeam,
             time: date,
-            stringTime: time,
+            stringTime: stringTime,
             result: 'Undetermined'
 
         });
-        // console.log(game)
+         console.log(game)
 
         const blueTeam = await Team.findById(req.body.blueTeam).exec();
         const redTeam = await Team.findById(req.body.redTeam).exec();
@@ -167,15 +171,15 @@ exports.deleteGame = async (req, res, next) => {
 
 }
 
-exports.editUser = async (req, res, next) =>{
+exports.editUser = async (req, res, next) => {
     const user = await User.findById(req.body.user._id).exec();
-    
+
 
 
 }
 
-exports.createUser = (req, res, next) =>{
-    
+exports.createUser = (req, res, next) => {
+
 }
 
 

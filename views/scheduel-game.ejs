@@ -7,21 +7,23 @@
 <form calss="create-game" action = '/admin/game/new' method =post>
     <label for="teams-select">Choose a blue team:</label>
 
-    <select name="blueTeam" id="teams-select">
+    <select name="blueTeam" id="teams-select" required>
         <% for(let i=0; i<blueTeams.length; i++){ %> 
             <option value=<%=blueTeams[i]._id%>><%=blueTeams[i].name%></option>
         <% } %> 
     </select>  
 
     <label for="teams-select">Choose a red team:</label>
-    <select name="redTeam" id="teams-select">
+    <select name="redTeam" id="teams-select" required>
         <% for(let i=0; i<redTeams.length; i++){ %> 
             <option value=<%=redTeams[i]._id%>><%=redTeams[i].name%></option>
         <% } %> 
     </select>  
+    <label for ="gameDate">Choose a date:</label>
+    <input type =date name = "gameDate" required>
     
     <label for="gameTime">Choose a time:</label>
-    <input type =time name = "gameTime">
+    <input type =time name = "gameTime" required>
 
     <button type="submit">Scheduel game</button>
 

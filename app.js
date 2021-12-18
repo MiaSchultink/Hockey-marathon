@@ -35,7 +35,8 @@ const errorController = require('./controllers/error')
 const adminController = require('./controllers/admin')
 const controller404 = require('./controllers/error')
 
-const User = require('./models/user')
+const User = require('./models/user');
+const Game = require('./models/game');
 
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
@@ -79,8 +80,45 @@ app.use((req, res, next) => {
   app.use('/admin', adminRoutes) 
   app.use('/game', gameRoutes) 
 
-  app.get('/', (req, res, next) =>{
-    res.render('home')
+  async function getUpcomingGames(){
+    const dateNow  = Date.now()
+    const halfHourLater = dateNow+30*60000;
+
+    console.log("now",dateNow);
+    console.log("30", halfHourLater);
+    const games = await Game.find().exec();
+
+    try {
+        const comingGames = [];
+       
+        for (let i = 0; i < games.length; i++) {
+             const game = games[i];
+             const gameTime = game.time.getTime();
+             console.log(gameTime);
+
+             if(gameTime>dateNow&&gameTime<halfHourLater){
+               comingGames.push(game);
+               console.log(game);
+             }
+
+        }
+      return comingGames; 
+    }
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+
+}
+
+  app.get('/', async (req, res, next) =>{
+   const games =  await getUpcomingGames();
+   console.log("games",games)
+    res.render('home',{
+      upcomingGames:games
+    })
   })
   
   app.use(controller404.get404);
