@@ -1,0 +1,23 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+    <form action ="/admin/track-game" method="post">
+        <div class="team-scores">
+            <label for = "redScores"><%=redTeam.name%> score(red team)</label>
+        <input name = "redScore"id ="redScores" type="number">
+        <label for = "blueScores"><%=blueTeam.name%> score (blue team</label>
+        <input name ="blueScore" id="blueScores" type ="number">
+
+        <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+        <input type ="hidden" name ="gameId" value= '<%=game._id%>'>
+        <button class="btn-border" type ="submit">Finish tracking</button>
+    </div>
+</form>
+
+    
+    
+        </div>
+    </div>
+</body>

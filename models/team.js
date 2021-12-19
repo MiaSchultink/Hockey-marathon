@@ -26,7 +26,10 @@ const teamSchema = new Schema({
             ref: 'Game',
             defualt: []
         }
-    ]
+    ],
+    score:{
+        type: Number
+    }
 })
 
 module.exports = mongoose.model('Team', teamSchema);

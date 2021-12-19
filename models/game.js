@@ -9,6 +9,10 @@ const gameSchema = new Schema({
     //         ref: 'Team'
     //     }
     // ],
+    title:{
+        type: String,
+        default:"Hockey Marathon Game"
+    },
     redTeam: {
         
             type: mongoose.Schema.Types.ObjectId,
@@ -24,11 +28,11 @@ const gameSchema = new Schema({
         
     },
     
-    time: {
+    date: {
         type: Date,
         required: true
     },
-    stringTime:{
+    time:{
         type: String
     },
     result:{

@@ -37,6 +37,7 @@ const controller404 = require('./controllers/error')
 
 const User = require('./models/user');
 const Game = require('./models/game');
+const Team  = require('./models/team');
 
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
@@ -82,10 +83,9 @@ app.use((req, res, next) => {
 
   async function getUpcomingGames(){
     const dateNow  = Date.now()
-    const halfHourLater = dateNow+30*60000;
+    const halfHourLater = dateNow+1800000;
 
-    console.log("now",dateNow);
-    console.log("30", halfHourLater);
+    
     const games = await Game.find().exec();
 
     try {
@@ -93,10 +93,9 @@ app.use((req, res, next) => {
        
         for (let i = 0; i < games.length; i++) {
              const game = games[i];
-             const gameTime = game.time.getTime();
-             console.log(gameTime);
-
-             if(gameTime>dateNow&&gameTime<halfHourLater){
+             const gameTime = game.date.getTime();
+            
+             if((gameTime>dateNow)&&(gameTime<halfHourLater)){
                comingGames.push(game);
                console.log(game);
              }
@@ -115,9 +114,13 @@ app.use((req, res, next) => {
 
   app.get('/', async (req, res, next) =>{
    const games =  await getUpcomingGames();
-   console.log("games",games)
+   const blueTeams = await Team.find({ color: 'blue' }).exec();
+   const redTeams = await Team.find({ color: 'red' }).exec();
+   
     res.render('home',{
-      upcomingGames:games
+      games:games,
+      redTeams: redTeams,
+      blueTeams: blueTeams
     })
   })
   

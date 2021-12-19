@@ -1,0 +1,33 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+        <form action = /admin/edit-game>
+            <label for="teams-select">Choose a blue team:</label>
+
+    <select name="blueTeam" id="teams-select" required>
+        <% for(let i=0; i<blueTeams.length; i++){ %> 
+            <option value=<%=blueTeams[i]._id%>><%=blueTeams[i].name%></option>
+        <% } %> 
+    </select>  
+
+    <label for="teams-select">Choose a red team:</label>
+    <select name="redTeam" id="teams-select" required>
+        <% for(let i=0; i<redTeams.length; i++){ %> 
+            <option value=<%=redTeams[i]._id%>><%=redTeams[i].name%></option>
+        <% } %> 
+    </select>  
+    <label for ="date">Choose a date:</label>
+    <input type =date name = "date" required>
+    
+    <label for="time">Choose a time:</label>
+    <input type =time name = "time" required>
+
+    <button type="submit">Scheduel game</button>
+
+    <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+        </form>
+        </div>
+    </div>
+</body>

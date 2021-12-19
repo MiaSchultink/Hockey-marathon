@@ -13,10 +13,8 @@
         </div>
 
         <div class="games-container">
-            games
-            <% for(let i=0; i<upcomingGames.length; i++) {%> 
-                <div><%=upcomingGames[i].name%></div>
-                <%}%>
+          Upcoming Games
+                <%-include('includes/display-games.ejs')%>
         </div>
        
 
