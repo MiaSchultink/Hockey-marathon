@@ -38,6 +38,7 @@ const controller404 = require('./controllers/error')
 const User = require('./models/user');
 const Game = require('./models/game');
 const Team  = require('./models/team');
+const Color = require('./models/color');
 
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
@@ -112,15 +113,36 @@ app.use((req, res, next) => {
 
 }
 
+
+function calculateColorScores(teams){
+let colorScore = 0;
+
+for(let i=0; i<teams.length; i++){
+   colorScore +=teams[i].score;
+}
+
+return colorScore;
+}
+
   app.get('/', async (req, res, next) =>{
    const games =  await getUpcomingGames();
    const blueTeams = await Team.find({ color: 'blue' }).exec();
    const redTeams = await Team.find({ color: 'red' }).exec();
+
+   let red = await Color.find({name: 'Red'}).exec();
+   let blue = await Color.find({name: 'Blue'}).exec(); 
+  
+  
+   red = red[0];
+   blue = blue[0];
+   console.log(red.score)
    
     res.render('home',{
       games:games,
       redTeams: redTeams,
-      blueTeams: blueTeams
+      blueTeams: blueTeams,
+      red: red,
+      blue: blue
     })
   })
   

@@ -5,8 +5,13 @@
         <div class="main">
        <div class="user-details">
            <div class="userName">Name: <%=user.name%></div>
-           <div class="userColor">Color: <%=user.team.color%></div>
+
+           <% if(user.team==null){%>
+              <div class="userTeam">Team: no team</div>
+            <%}else { %>
+             <div class="userColor">Color: <%=user.team.color%></div>
            <div class="userTeam">Team: <%=user.team.name%></div>
+           <% } %> 
           
        </div>
         </div>

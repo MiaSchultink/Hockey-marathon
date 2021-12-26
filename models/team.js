@@ -27,6 +27,13 @@ const teamSchema = new Schema({
             defualt: []
         }
     ],
+    gamesWon: [
+        {
+            type:  mongoose.Schema.Types.ObjectId,
+            ref: 'Game',
+            defualt: []
+        }
+    ],
     score:{
         type: Number
     }

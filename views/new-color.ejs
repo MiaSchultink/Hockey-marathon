@@ -1,0 +1,17 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+        <form action="/admin/color/new" method="post">
+            <label for="gameTime">Color name:</label>
+            <input name="name">
+            <label for="gameTime">Color score:</label>
+            <input type =number name="score" defualt="0">
+            
+            <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+            <button class="btn-border" type ="submit">Create color</button>
+        </form>
+        </div>
+    </div>
+</body>

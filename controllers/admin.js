@@ -2,9 +2,9 @@
 const Team = require('../models/team')
 const User = require('../models/user')
 const Game = require('../models/game')
-// const BlueColor = require('../models/blue');
-// const RedColor = require('../models/red');
 const Color = require('../models/color')
+
+
 
 const isAdmin = require('../middlewear/is-admin');
 const { Mongoose } = require('mongoose');
@@ -22,6 +22,32 @@ async function checkAdmin() {
     return isAdmin;
 }
 
+
+exports.getCreateNewColor = (req, res,next) =>{
+    try{
+      res.render('new-color');
+    }
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+}
+
+exports.createNewColor =async (req, res, next) =>{
+    const colorName = req.body.name;
+    const colorScore= req.body.score;
+
+    const color = new Color({
+      name: colorName,
+      score: colorScore
+    });
+
+    await color.save();
+
+    res.redirect("/");
+}
 
 
 exports.getAddTeam = (req, res, next) => {
@@ -44,7 +70,6 @@ exports.addTeam = async (req, res, next) => {
                 color: req.body.color,
             })
             await team.save();
-            console.log(team)
 
             res.redirect('/')
         }
@@ -85,22 +110,9 @@ exports.getScheduelGame = async (req, res, next) => {
 exports.scheduelGame = async (req, res, next) => { 
    const stringTime = req.body.gameTime;
     let time = stringTime;
-    // const brokenTime = time.split(":")
-    // let hour =parseInt(brokenTime[0]);
-    // hour+=2;
-    
-    // if(hour<10){
-    //     hour = hour.toString();
-    //     hour = 0+hour;
-    // }
-    
-    // time = hour+":"+brokenTime[1];
-
+   
     const date = new Date(req.body.gameDate+"T"+stringTime);
-    console.log(date);
-    console.log(stringTime);
-   // const milDate = date.getTime();
-    //console.log("mil ", milDate);
+   
     try {
         const game = new Game({
             redTeam: req.body.redTeam,
@@ -237,14 +249,50 @@ exports.getTrackGame = async (req, res, next) =>{
 }
 
 exports.trackGame =async (req, res, next) =>{
+    const red = await Color.find({ name: 'Red' }).exec();
+    const blue = await Color.find({ name:'Blue' }).exec();
+
     const game = await Game.findById(req.body.gameId).exec();
     const redTeam = await Team.findById(game.redTeam).exec();
+
     const blueTeam = await Team.findById(game.blueTeam).exec();
     
-    redTeam.score = req.body.redScore;
-    blueTeam.score= req.body.blueScore;
+    const redTeamScore = req.body.redScore;
+    redTeam.score = redTeamScore;
 
+    const blueTeamScore= req.body.blueScore;
+    blueTeam.score= blueTeamScore;
 
+   if(blueTeamScore>redTeamScore){
+       blueTeam.gamesWon.addToSet(game);
+       game.result = "win for blue!";
+   }
+   else if(redTeamScore>blueTeamScore){
+       redTeam.gamesWon.addToSet(game);
+       game.result = "win for red!";
+   }
+   else{
+       game.result = "its a tie!"
+   }
+
+    await redTeam.save();
+    await blueTeam.save();
+    await game.save();
+    // await red[0].save();
+    // await blue[0].save();
+
+    for(let i=0; i<red.length; i++){
+        let redColorScore = red[i].socre;
+        redColorScore+=redTeamScore;
+        await red[i].save();
+    }
+    for(let j=0; j<blue.length; j++){
+        let blueColorScore= blue[j].score;
+        blueColorScore+=blueTeamScore;
+        await blue[j].save();
+    }
+
+    res.redirect('/game/all');
 
 }
 

@@ -93,6 +93,7 @@ exports.postLogin = async (req, res, next) => {
             res.redirect('/user/login')
         }
         const passwordMatch = await bcrypt.compare(password, user.password)
+        
         if (passwordMatch) {
             req.session.isLoggedIn = true;
             req.session.user = user;
@@ -132,6 +133,7 @@ exports.logout = (req, res, next) => {
 exports.viewProfile = async(req, res, next) =>{
     const user = await User.findById(req.session.user._id).populate('team').exec();
    
+    console.log(user.team);
     try{
     res.render('user-profile',{
         user:user
@@ -144,6 +146,8 @@ exports.viewProfile = async(req, res, next) =>{
         })
     }
 }
+
+
 
 
 
