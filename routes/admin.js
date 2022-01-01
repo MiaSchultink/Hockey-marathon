@@ -18,4 +18,13 @@ router.post('/track-game', isAdmin, adminController.trackGame);
 router.get('/color/new', isAdmin, adminController.getCreateNewColor);
 router.post('/color/new', isAdmin, adminController.createNewColor);
 
+router.get('/announcements/new', isAdmin, adminController.getBroadcastForm);
+
+router.post('/announcements/new', isAdmin, adminController.broadcastMessage);
+
+router.post('/announcements/delete', isAdmin, adminController.deleteMessage);
+
+
+
+
 module.exports = router;  

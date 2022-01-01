@@ -14,4 +14,6 @@ router.post('/teams/leave',isAuth, gameController.leaveTeam);
 
 router.get('/all', isAuth, gameController.getGames);
 
+router.get('/announcements', isAuth, gameController.getAnnouncements);
+
 module.exports =router;

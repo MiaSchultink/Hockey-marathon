@@ -9,6 +9,19 @@
     
     <link rel = "icon" href = "/favicon.ico">
     <script src="https://kit.fontawesome.com/9eb54e81b4.js" crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('update', m => {
+            const box = document.getElementById("message-box");
+            box.innerHTML = m;
+
+        })
+        socket.on('reqId', () => {
+            socket.emit('resId', '1234')
+        })
+    </script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FY05JHE9MH"></script>
     <script>

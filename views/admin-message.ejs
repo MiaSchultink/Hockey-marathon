@@ -1,0 +1,16 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+            <form action="/admin/announcements/new" method="post">
+            <div class="msg-container">
+             <label for="message">Message:</label>
+                <input type = text class="msg-input" id = "message" name="message">
+                 <button class="form-button" type="submit">Send</button>
+                 <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+            </div>
+        </form>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,28 @@
+<%- include('includes/top.ejs') %> 
+<body>
+    <%- include('includes/top-includes.ejs') %> 
+    <div class="top">
+        <div class="main">
+         <div class="messages-container">
+        <% for(let i=0; i<messages.length; i++){ %>
+
+                <div class="time-stamp"><%=messages[i].timeStamp%></div>
+                
+                <div class="message-box" id= "message-box">
+                    <%if(messages[i].sender._id.toString()==user._id.toString()){%>
+                   <div class="msg-delete">
+                    <form action="/admin/announcements/delete" method="post">
+                       <button class="msg-delete-btn" type="submit"><i class="fas fa-trash"></i></button>
+                       <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+                       <input type="hidden" name="messageId" value=<%=messages[i]._id%>>
+                 </form>
+                    </div>
+                   <%}%>
+                    <%=messages[i].sender.name%>:
+                    <%=messages[i].content%>
+                </div>
+                <% }%>
+         </div>
+        </div>
+    </div>
+</body>

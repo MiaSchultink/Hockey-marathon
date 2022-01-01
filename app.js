@@ -81,6 +81,7 @@ app.use((req, res, next) => {
   app.use('/user', userRoutes)
   app.use('/admin', adminRoutes) 
   app.use('/game', gameRoutes) 
+  
 
   async function getUpcomingGames(){
     const dateNow  = Date.now()

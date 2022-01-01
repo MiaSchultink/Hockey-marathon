@@ -3,6 +3,7 @@ const Team = require('../models/team')
 const User = require('../models/user')
 const Game = require('../models/game')
 const Color = require('../models/color')
+const Message = require('../models/message');
 
 
 
@@ -23,9 +24,9 @@ async function checkAdmin() {
 }
 
 
-exports.getCreateNewColor = (req, res,next) =>{
-    try{
-      res.render('new-color');
+exports.getCreateNewColor = (req, res, next) => {
+    try {
+        res.render('new-color');
     }
     catch (err) {
         console.log(err)
@@ -35,13 +36,13 @@ exports.getCreateNewColor = (req, res,next) =>{
     }
 }
 
-exports.createNewColor =async (req, res, next) =>{
+exports.createNewColor = async (req, res, next) => {
     const colorName = req.body.name;
-    const colorScore= req.body.score;
+    const colorScore = req.body.score;
 
     const color = new Color({
-      name: colorName,
-      score: colorScore
+        name: colorName,
+        score: colorScore
     });
 
     await color.save();
@@ -107,12 +108,12 @@ exports.getScheduelGame = async (req, res, next) => {
 
 }
 
-exports.scheduelGame = async (req, res, next) => { 
-   const stringTime = req.body.gameTime;
+exports.scheduelGame = async (req, res, next) => {
+    const stringTime = req.body.gameTime;
     let time = stringTime;
-   
-    const date = new Date(req.body.gameDate+"T"+stringTime);
-   
+
+    const date = new Date(req.body.gameDate + "T" + stringTime);
+
     try {
         const game = new Game({
             redTeam: req.body.redTeam,
@@ -122,7 +123,7 @@ exports.scheduelGame = async (req, res, next) => {
             result: 'Undetermined'
 
         });
-         console.log(game)
+        console.log(game)
 
         const blueTeam = await Team.findById(req.body.blueTeam).exec();
         const redTeam = await Team.findById(req.body.redTeam).exec();
@@ -186,7 +187,7 @@ exports.deleteGame = async (req, res, next) => {
 
 }
 
-exports.getEditGame = async (req, res, next) =>{
+exports.getEditGame = async (req, res, next) => {
     const blueTeams = await Team.find({ color: 'blue' }).exec();
     const redTeams = await Team.find({ color: 'red' }).exec();
     try {
@@ -202,43 +203,43 @@ exports.getEditGame = async (req, res, next) =>{
         })
     }
 }
-exports.editGame =async(req, res, next) =>{
-const game = await Game.findById(req.body.gameId).exec();
+exports.editGame = async (req, res, next) => {
+    const game = await Game.findById(req.body.gameId).exec();
 
-try{
-game.title = req.body.title;
-game.blueTeam = req.body.blueTeam;
-game.redTeam = req.body.redTeam;
-game.date = req.body.date;
-game.time = req.body.time;
-game.result = req.body.result;
+    try {
+        game.title = req.body.title;
+        game.blueTeam = req.body.blueTeam;
+        game.redTeam = req.body.redTeam;
+        game.date = req.body.date;
+        game.time = req.body.time;
+        game.result = req.body.result;
 
 
-await game.save();
+        await game.save();
+    }
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+
 }
-catch (err) {
-    console.log(err)
-    res.render('error', {
-        message: 'Something went wrong...'
-    })
-}
-
-}
 
 
-exports.getTrackGame = async (req, res, next) =>{
+exports.getTrackGame = async (req, res, next) => {
     const game = await Game.findById(req.params.gameId).exec();
-    
+
     const redTeam = await Team.findById(game.redTeam).exec();
     const blueTeam = await Team.findById(game.blueTeam).exec();
 
-    
-    try{
-      res.render('track-game.ejs',{
-          game: game,
-          redTeam: redTeam,
-          blueTeam: blueTeam
-      })
+
+    try {
+        res.render('track-game.ejs', {
+            game: game,
+            redTeam: redTeam,
+            blueTeam: blueTeam
+        })
     }
     catch (err) {
         console.log(err)
@@ -248,51 +249,61 @@ exports.getTrackGame = async (req, res, next) =>{
     }
 }
 
-exports.trackGame =async (req, res, next) =>{
-    const red = await Color.find({ name: 'Red' }).exec();
-    const blue = await Color.find({ name:'Blue' }).exec();
+exports.trackGame = async (req, res, next) => {
 
-    const game = await Game.findById(req.body.gameId).exec();
-    const redTeam = await Team.findById(game.redTeam).exec();
+    try {
+        const red = await Color.find({ name: 'Red' }).exec();
+        const blue = await Color.find({ name: 'Blue' }).exec();
 
-    const blueTeam = await Team.findById(game.blueTeam).exec();
-    
-    const redTeamScore = req.body.redScore;
-    redTeam.score = redTeamScore;
+        const game = await Game.findById(req.body.gameId).exec();
+        const redTeam = await Team.findById(game.redTeam).exec();
 
-    const blueTeamScore= req.body.blueScore;
-    blueTeam.score= blueTeamScore;
+        const blueTeam = await Team.findById(game.blueTeam).exec();
 
-   if(blueTeamScore>redTeamScore){
-       blueTeam.gamesWon.addToSet(game);
-       game.result = "win for blue!";
-   }
-   else if(redTeamScore>blueTeamScore){
-       redTeam.gamesWon.addToSet(game);
-       game.result = "win for red!";
-   }
-   else{
-       game.result = "its a tie!"
-   }
+        const redTeamScore = req.body.redScore;
+        redTeam.score = redTeamScore;
 
-    await redTeam.save();
-    await blueTeam.save();
-    await game.save();
-    // await red[0].save();
-    // await blue[0].save();
+        const blueTeamScore = req.body.blueScore;
+        blueTeam.score = blueTeamScore;
 
-    for(let i=0; i<red.length; i++){
-        let redColorScore = red[i].socre;
-        redColorScore+=redTeamScore;
-        await red[i].save();
+        if (blueTeamScore > redTeamScore) {
+            blueTeam.gamesWon.addToSet(game);
+            game.result = "win for blue!";
+        }
+        else if (redTeamScore > blueTeamScore) {
+            redTeam.gamesWon.addToSet(game);
+            game.result = "win for red!";
+        }
+        else {
+            game.result = "its a tie!"
+        }
+
+        await redTeam.save();
+        await blueTeam.save();
+        await game.save();
+        // await red[0].save();
+        // await blue[0].save();
+
+        for (let i = 0; i < red.length; i++) {
+            let redColorScore = red[i].socre;
+            redColorScore += redTeamScore;
+            await red[i].save();
+        }
+        for (let j = 0; j < blue.length; j++) {
+            let blueColorScore = blue[j].score;
+            blueColorScore += blueTeamScore;
+            await blue[j].save();
+        }
+
+        res.redirect('/game/all');
+
     }
-    for(let j=0; j<blue.length; j++){
-        let blueColorScore= blue[j].score;
-        blueColorScore+=blueTeamScore;
-        await blue[j].save();
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
     }
-
-    res.redirect('/game/all');
 
 }
 
@@ -304,8 +315,55 @@ exports.editUser = async (req, res, next) => {
 
 }
 
-exports.createUser = (req, res, next) => {
 
+
+exports.getBroadcastForm = (req, res, next) => {
+    res.render('admin-message');
+}
+
+
+exports.broadcastMessage = async (req, res, next) => {
+
+    try {
+        const messageContent = req.body.message;
+        const miliseconds = Date.now();
+        const date = new Date(miliseconds);
+        const timeStamp= date.toLocaleString(); 
+        const sender = await User.findById(req.session.user._id).exec();
+
+        const message = new Message({
+            timeStamp: timeStamp,
+            content: messageContent,
+            sender: sender
+        })
+
+        await message.save();
+
+        res.redirect('/game/announcements');
+    }
+
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+}
+
+
+exports.deleteMessage =async (req, res, next) =>{
+    const messages = await Message.find().exec();
+    const message = await Message.findById(req.body.messageId).exec();
+
+    for(let i=0; i<messages.length; i++){
+        if(messages[i]._id.toString()==message._id.toString()){
+           await messages[i].remove();
+        }
+    }
+
+    res.redirect('/game/announcements');
+    
+    
 }
 
 

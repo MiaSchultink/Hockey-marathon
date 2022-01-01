@@ -1,8 +1,8 @@
 const Team = require('../models/team');
 const User = require('../models/user');
 const Game = require('../models/game');
-
-
+const Message = require('../models/message');
+const { getIO } = require('../controllers/messages')
 
 
 exports.getTeams = async (req, res, next) => {
@@ -130,12 +130,12 @@ exports.getGames = async (req, res, next) => {
 //         for (let i = 0; i < games.length; i++) {
 //             if (games[i].time <= closeTime) {
 //                 comingGames.push(games[i]);
-                
+
 
 //             }
 //         }
-        
-        
+
+
 //         res.render('home', {
 //             upcomingGames: comingGames
 //         });
@@ -148,3 +148,30 @@ exports.getGames = async (req, res, next) => {
 //     }
 
 // }
+
+
+
+
+
+
+exports.getAnnouncements = async (req, res, next) => {
+    // const socketIo = getIO()
+    // console.log(socketIo)
+    // socketIo.emit('update', 'Hello world')
+    const messages =await  Message.find().populate('sender').exec();
+    const user = await User.findById(req.session.user._id).exec();
+
+    try{
+        res.render('announcements', {
+            messages: messages,
+            user: user
+           })
+    }
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+    
+}

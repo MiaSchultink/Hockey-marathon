@@ -8,7 +8,7 @@
             <button class = "nav-button profile" onclick ="location.assign('/user/profile')">Profile</button>
             <button class = "nav-button profile" onclick ="location.assign('/game/all')">Games</button>
             <button class = "nav-button" onclick ="location.assign('/game/teams')">Teams</button>
-            <button class = "nav-button profile">Announcemetns</button>
+            <button class = "nav-button" onclick ="location.assign('/game/announcements')">Announcemetns</button>
 
             <form action = "/user/logout" method="post">
             <button class = "nav-button" onclick ="location.assign('/user/logout')">Logout</button>
@@ -24,6 +24,8 @@
         <% if(locals.isAdmin==true) {%>
             <button class = "nav-button" onclick ="location.assign('/admin/add-team')">Add-team</Add-team></button>
             <button class = "nav-button" onclick ="location.assign('/admin/game/new')">New-game</Add-team></button>
+            <button class = "nav-button" onclick ="location.assign('/admin/announcements/new')">New-announcement</button>
+
             <% } %> 
 
     </div>
