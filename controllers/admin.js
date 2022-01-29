@@ -88,6 +88,15 @@ exports.addTeam = async (req, res, next) => {
 
 }
 
+exports.resetTeamScore = async (req, res, next) => {
+    const team = await Team.findById(req.body.gameId).exec();
+
+    team.score = 0;
+    await team.save();
+
+    res.redirect('/game/teams');
+}
+
 exports.getScheduelGame = async (req, res, next) => {
     const teams = await Team.find().exec();
 
@@ -120,13 +129,16 @@ exports.scheduelGame = async (req, res, next) => {
             blueTeam: req.body.blueTeam,
             date: date,
             time: stringTime,
-            result: 'Undetermined'
+            result: 'Undetermined',
+            redScore: 0,
+            blueScore: 0
 
         });
         console.log(game)
 
         const blueTeam = await Team.findById(req.body.blueTeam).exec();
         const redTeam = await Team.findById(req.body.redTeam).exec();
+
         blueTeam.games.addToSet(game._id);
         redTeam.games.addToSet(game._id);
 
@@ -260,23 +272,37 @@ exports.trackGame = async (req, res, next) => {
 
         const blueTeam = await Team.findById(game.blueTeam).exec();
 
-        const redTeamScore = req.body.redScore;
-        redTeam.score = redTeamScore;
+        const redTeamScoreInGame = req.body.redScore;
+        const blueTeamScoreInGame = req.body.blueScore;
 
-        const blueTeamScore = req.body.blueScore;
-        blueTeam.score = blueTeamScore;
+        game.redScore = redTeamScoreInGame;
+        game.blueScore = blueTeamScoreInGame;
 
-        if (blueTeamScore > redTeamScore) {
+        // redTeam.score = redTeamScore;
+        // blueTeam.score = blueTeamScore;
+
+        console.log("red", redTeamScoreInGame);
+        console.log("blue", blueTeamScoreInGame);
+        console.log("blue bigger red", blueTeamScoreInGame > redTeamScoreInGame);
+        console.log("red bigger blue", redTeamScoreInGame > blueTeamScoreInGame);
+
+        if (blueTeamScoreInGame > redTeamScoreInGame) {
             blueTeam.gamesWon.addToSet(game);
             game.result = "win for blue!";
         }
-        else if (redTeamScore > blueTeamScore) {
+        else if (redTeamScoreInGame > blueTeamScoreInGame) {
             redTeam.gamesWon.addToSet(game);
             game.result = "win for red!";
         }
         else {
             game.result = "its a tie!"
         }
+
+        let redScore = parseInt(redTeam.score);
+        redScore = redScore + parseInt(redTeamScoreInGame);
+
+        let blueScore = parseInt(blueTeam.score);
+        blueScore = blueScore + parseInt(blueTeamScoreInGame);
 
         await redTeam.save();
         await blueTeam.save();
@@ -286,12 +312,12 @@ exports.trackGame = async (req, res, next) => {
 
         for (let i = 0; i < red.length; i++) {
             let redColorScore = red[i].socre;
-            redColorScore += redTeamScore;
+            redColorScore += redTeamScoreInGame;
             await red[i].save();
         }
         for (let j = 0; j < blue.length; j++) {
             let blueColorScore = blue[j].score;
-            blueColorScore += blueTeamScore;
+            blueColorScore += blueTeamScoreInGame;
             await blue[j].save();
         }
 
@@ -328,7 +354,7 @@ exports.broadcastMessage = async (req, res, next) => {
         const messageContent = req.body.message;
         const miliseconds = Date.now();
         const date = new Date(miliseconds);
-        const timeStamp= date.toLocaleString(); 
+        const timeStamp = date.toLocaleString();
         const sender = await User.findById(req.session.user._id).exec();
 
         const message = new Message({
@@ -351,20 +377,40 @@ exports.broadcastMessage = async (req, res, next) => {
 }
 
 
-exports.deleteMessage =async (req, res, next) =>{
+exports.deleteMessage = async (req, res, next) => {
     const messages = await Message.find().exec();
     const message = await Message.findById(req.body.messageId).exec();
 
-    for(let i=0; i<messages.length; i++){
-        if(messages[i]._id.toString()==message._id.toString()){
-           await messages[i].remove();
+    for (let i = 0; i < messages.length; i++) {
+        if (messages[i]._id.toString() == message._id.toString()) {
+            await messages[i].remove();
         }
     }
 
     res.redirect('/game/announcements');
-    
-    
+
+
 }
+
+
+
+exports.getEditTeam = async (req, res, next) => {
+    const team = await Team.findById(req.body.teamId).exec();
+
+    try {
+        res.render('team-edit', {
+            team: team,
+        })
+    }
+    catch (err) {
+        console.log(err)
+        res.render('error', {
+            message: 'Something went wrong...'
+        })
+    }
+}
+
+
 
 
 

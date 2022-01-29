@@ -3,39 +3,44 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const gameSchema = new Schema({
 
-    // teams: [
-    //     {
-    //         type: mongoose.Schema.Types.ObjectId,
-    //         ref: 'Team'
-    //     }
-    // ],
-    title:{
+    title: {
         type: String,
-        default:"Hockey Marathon Game"
+        default: "Hockey Marathon Game"
     },
     redTeam: {
-        
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Team',
-            required: true 
-        
-},
-    blueTeam: {
-        
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Team',
-            required: true 
-        
+
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team',
+        required: true
+
     },
-    
+
+    redScore: {
+        type: Number,
+        required: true,
+        defualt: 0
+    },
+    blueScore: {
+        type: Number,
+        required: true,
+        defualt: 0
+    },
+    blueTeam: {
+
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team',
+        required: true
+
+    },
+
     date: {
         type: Date,
         required: true
     },
-    time:{
+    time: {
         type: String
     },
-    result:{
+    result: {
         type: String
     }
 })

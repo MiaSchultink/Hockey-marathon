@@ -7,6 +7,7 @@ const adminController  = require('../controllers/admin')
 
 router.get('/add-team', isAdmin, adminController.getAddTeam)
 router.post('/add-team', isAdmin, adminController.addTeam)
+router.post('/reset-score', isAdmin, adminController.resetTeamScore);
 
 router.get('/game/new', isAdmin, adminController.getScheduelGame);
 router.post('/game/new', isAdmin, adminController.scheduelGame);

@@ -7,6 +7,25 @@
     <div class="teams-container">
 <% for(let i=0; i<teams.length;i++){ %> 
 
+    <% if(locals.isAdmin==true) {%> 
+        <label for ="admin-actions">Admin actions:</label>
+        <div class="admin-actions" id="admin-actions">
+        <form action = "/admin/team/delete" method="post">
+            <input type= "hidden" name="teamId" value="<%=teams[i]._id%>" >
+       <button class="form-button admin-btn" type = "submit">Delete team</button> 
+       <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+    </form>
+    <form action = "/admin/team/reset-score" method="post">
+        <input type= "hidden" name="teamId" value="<%=teams[i]._id%>" >
+   <button class="form-button admin-btn" type = "submit">Reset score</button> 
+   <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
+</form>
+
+
+   <button class="form-button admin-btn" onclick='location.assign("/admin/edit-team/<%=teams[i]._id%>")'>Edit team</button>
+</div>
+<% } %> 
+
     <% const team  = teams[i];
     let stylePreference  = "";
     if(team.color =='red'){
@@ -29,9 +48,6 @@
         <input type ="hidden" name ="_csrf" value= '<%=csrfToken%>'>
     </form>
 
-
-
-    
 
     <%if(user.team==null){%>
         <form name = "leave-team" action ="/game/teams/leave" method  = "post">
