@@ -10,7 +10,7 @@ Admin hompage
 
 
 See all teams (admin view)
-<img width="1430" alt="Screen Shot 2022-08-23 at 20 19 34" src="https://user-images.githubusercontent.com/75542131/186227701-709409c1-1691-4f6f-8ad4-197ea9989ea0.png">
+<img width="1431" alt="Screen Shot 2022-08-23 at 20 44 31" src="https://user-images.githubusercontent.com/75542131/186228500-3ce99391-4369-4cc4-ad8f-1120a7571229.png">
 
 See all games (admin view)
 <img width="1437" alt="Screen Shot 2022-08-23 at 20 32 11" src="https://user-images.githubusercontent.com/75542131/186227763-90f747d3-4050-4d27-855c-9fb409739d85.png">
